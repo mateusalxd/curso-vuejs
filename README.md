@@ -22,16 +22,16 @@ export default {
 </script>
 ```
 
-- dentro da tag `template` deve existir somente uma tag raiz
+- dentro da tag `template` deve existir somente uma tag raiz (a partir da versão 3 não tem essa restrição)
 - não é possível realizar a interpolação em atributos de tags, para fazer isso é necessário utilizar a diretiva `v-bind:` ou simplesmente `:`
 
 ```vue
 <template>
   <div>
-    <h1>{{ titulo }}</h1>
     <!-- usando interpolação -->
-    <img v-bind:src="foto.url" :alt="foto.titulo" />
+    <h1>{{ titulo }}</h1>
     <!-- usando diretiva v-bind: e : -->
+    <img v-bind:src="foto.url" :alt="foto.titulo" />
   </div>
 </template>
 
@@ -66,4 +66,29 @@ export default {
     </ul>
   </div>
 </template>
+```
+
+- Vue.js possui o ciclo de vida `created` que pode ser utilizado para recuperar dados de uma API externa, por exemplo
+
+```vue
+<script>
+// na versão 2 de Vue.js, tinha a vue-resource
+import axios from "axios";
+export default {
+  data() {
+    return {
+      titulo: "Alurapic",
+      // propriedade do componente
+      fotos: [],
+    };
+  },
+  created() {
+    axios.get("http://localhost:3000/v1/fotos").then(
+      // this.fotos se referi a propriedade do componente
+      (fotos) => (this.fotos = fotos.data),
+      (err) => console.log(err)
+    );
+  },
+};
+</script>
 ```
