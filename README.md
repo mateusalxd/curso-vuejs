@@ -92,3 +92,61 @@ export default {
 };
 </script>
 ```
+
+- a criação de um componente pode ser observada abaixo
+
+```vue
+<!-- arquivo Painel.vue -->
+<template>
+  <div class="painel">
+    <!-- pode ser utilizada a interpolação dos atributos do componente -->
+    <h2 class="painel-titulo">{{ titulo }}</h2>
+    <!-- para que o componete consiga receber conteúdo, é necessário utilizar a tag <slot> que pode ser nomeada ou não, na linha abaixo o slot não é nomeado, então será considerado o slot padrão -->
+    <slot class="painel-conteudo"></slot>
+    <!-- slot chamado rodape -->
+    <slot name="rodape"></slot>
+  </div>
+</template>
+<script>
+export default {
+  name: "meu-painel",
+  // define quais são os atributos do componente
+  props: ["titulo"],
+};
+</script>
+<!-- o scoped garante que o style não seja 
+compartilhado com todos os componentes -->
+<style scoped>
+/* CSS */
+</style>
+
+<!-- arquivo App.vue -->
+<template>
+  ...
+  <li class="lista-fotos-item" v-for="(foto, posicao) of fotos" :key="posicao">
+    <!-- usando o componente importado -->
+    <meu-painel :titulo="foto.titulo">
+      <!-- tag img utiliza o slot padrão -->
+      <img class="imagem-responsiva" :src="foto.url" :alt="foto.titulo" />
+      <!-- o template abaixo entra no lugar do slot rodape -->
+      <template v-slot:rodape>Posição da imagem {{ posicao }}</template>
+    </meu-painel>
+  </li>
+  ...
+</template>
+<script>
+// importa o componente
+import Painel from "./components/shared/painel/Painel.vue";
+export default {
+  components: {
+    // faz a ligação do nome da tag com o componente
+    "meu-painel": Painel,
+  },
+  ...
+};
+</script>
+<!-- style sem scoped é aplicado para todos os componentes -->
+<style>
+/* CSS */
+</style>
+```
