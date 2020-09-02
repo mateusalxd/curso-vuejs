@@ -101,7 +101,9 @@ export default {
   <div class="painel">
     <!-- pode ser utilizada a interpolação dos atributos do componente -->
     <h2 class="painel-titulo">{{ titulo }}</h2>
-    <!-- para que o componete consiga receber conteúdo, é necessário utilizar a tag <slot> que pode ser nomeada ou não, na linha abaixo o slot não é nomeado, então será considerado o slot padrão -->
+    <!-- para que o componete consiga receber conteúdo, é necessário 
+    utilizar a tag <slot> que pode ser nomeada ou não, na linha abaixo
+     o slot não é nomeado, então será considerado o slot padrão -->
     <slot class="painel-conteudo"></slot>
     <!-- slot chamado rodape -->
     <slot name="rodape"></slot>
