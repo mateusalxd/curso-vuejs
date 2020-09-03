@@ -199,3 +199,57 @@ export default {
 };
 </script>
 ```
+
+- através da diretiva `v-show` é possível determinar se um elemente estará visível no DOM
+
+```vue
+<template>
+  ...
+  <div class="painel-conteudo" v-show="visivel">
+    <slot></slot>
+  </div>
+  ...
+</template>
+
+<script>
+export default {
+  ...
+  data() {
+    return {
+      visivel: true,
+    };
+  },
+};
+</script>
+```
+
+- Vue.js facilita o uso de classes para realização de transições através da tag `<transition>` [(ref)](https://vuejs.org/v2/guide/transitions.html)
+
+```vue
+<template>
+  ...
+  <!-- dentro da tag transition deve existir somente um elemento -->
+  <transition name="painel-fade">
+    <!-- o atribute name define o prefixo da classe, 
+    que nesse caso será painel-fade -->
+    <div class="painel-conteudo" v-show="visivel">
+      <slot></slot>
+    </div>
+  </transition>
+  ...
+</template>
+<style scoped>
+/* ... */
+/* -enter, -leave-active e -enter-active é adicionado dinamicamente
+pelo Vue.js, considerando o name da transition definida */
+.painel-fade-enter,
+.painel-fade-leave-active {
+  opacity: 0;
+}
+
+.painel-fade-enter-active,
+.painel-fade-leave-active {
+  transition: opacity 0.4s;
+}
+</style>
+```
