@@ -323,3 +323,57 @@ export default {
 </script>
 ...
 ```
+
+- através da propriedade `methods` é possível definir métodos que serão utilizados em eventos
+
+```vue
+<!-- arquivo Botao.vue -->
+<template>
+  <!-- define que o evento click do button 
+  vai executar o método emiteClique-->
+  <button @click="emiteClique()">{{ label }}</button>
+</template>
+
+<script>
+export default {
+  ...
+  methods: {
+    emiteClique() {
+      if (this.confirmacao) {
+        if (confirm("Deseja realizar a ação?")) {
+          /* o componente irá emitir o evento botao-clicado
+          que poderá ser recuperado no elemento pai */
+          this.$emit("botao-clicado");
+        }
+        return;
+      }
+      /* caso necessário o evento pode enviar outros parâmetros
+      além do nome do evento, e isso também poderá ser recuperado
+      no elemento pai */
+      this.$emit("botao-clicado", "somente um exemplo");
+    },
+  },
+  ...
+};
+</script>
+
+<!-- arquivo Home.vue -->
+<template>
+  ...
+  <meu-painel :titulo="foto.titulo">
+    <imagem-responsiva :url="foto.url" :titulo="foto.titulo" />
+    <template v-slot:rodape>
+      <!-- botao-clicado é o evento disparado pelo componente -->
+      <meu-botao
+        @botao-clicado="removerFoto(foto)"
+        tipo="button"
+        label="REMOVER"
+        :confirmacao="true"
+        estilo="perigo"
+      />
+      <!-- removerFoto é um método declarado em methods -->
+    </template>
+  </meu-painel>
+  ...
+</template>
+```
