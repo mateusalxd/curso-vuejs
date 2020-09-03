@@ -84,7 +84,7 @@ export default {
   },
   created() {
     axios.get("http://localhost:3000/v1/fotos").then(
-      // this.fotos se referi a propriedade do componente
+      // this.fotos se refere a propriedade do componente
       (fotos) => (this.fotos = fotos.data),
       (err) => console.log(err)
     );
@@ -101,7 +101,7 @@ export default {
   <div class="painel">
     <!-- pode ser utilizada a interpolação dos atributos do componente -->
     <h2 class="painel-titulo">{{ titulo }}</h2>
-    <!-- para que o componete consiga receber conteúdo, é necessário 
+    <!-- para que o componente consiga receber conteúdo, é necessário 
     utilizar a tag <slot> que pode ser nomeada ou não, na linha abaixo
      o slot não é nomeado, então será considerado o slot padrão -->
     <slot class="painel-conteudo"></slot>
@@ -153,7 +153,7 @@ export default {
 </style>
 ```
 
-- o _data binding_ de eventos acontece através da diretiva `v-on` ou simplemente `@`
+- o _data binding_ de eventos acontece através da diretiva `v-on` ou simplesmente `@`
 
 ```vue
 <template>
@@ -200,7 +200,7 @@ export default {
 </script>
 ```
 
-- através da diretiva `v-show` é possível determinar se um elemente estará visível no DOM
+- através da diretiva `v-show` é possível determinar se um elemento estará visível no DOM
 
 ```vue
 <template>
@@ -230,7 +230,7 @@ export default {
   ...
   <!-- dentro da tag transition deve existir somente um elemento -->
   <transition name="painel-fade">
-    <!-- o atribute name define o prefixo da classe, 
+    <!-- o atributo name define o prefixo da classe, 
     que nesse caso será painel-fade -->
     <div class="painel-conteudo" v-show="visivel">
       <slot></slot>
@@ -301,7 +301,7 @@ app.mount("#app");
   ...
   <li v-for="(rota, posicao) of rotas" v-bind:key="posicao">
     <!-- router-link possibilitará a navegação
-    sem ser necessário recerregar a página -->
+    sem ser necessário recarregar a página -->
     <router-link :to="rota.path || '/'">{{ rota.name }}</router-link>
   </li>
   ...
