@@ -152,3 +152,50 @@ export default {
 /* CSS */
 </style>
 ```
+
+- o _data binding_ de eventos acontece através da diretiva `v-on` ou simplemente `@`
+
+```vue
+<template>
+    ...
+    <!-- a propriedade filtro recebe o valor do input  -->
+    <input
+      type="search"
+      class="filtro"
+      placeholder="digite aqui seu filtro"
+      v-on:input="filtro = $event.target.value"
+    />
+    <!-- $event permite acessar o evento -->
+    <ul class="lista-fotos">
+      <!-- utiliza a computed property fotosComFiltro para atualizar dinamicamente a lista,
+      isso irá ocorrer sempre que a propriedade filtro for atualizada, para utilizá-la
+      é necessário chamá-la como se fosse uma propriedade e não uma função -->
+      <li class="lista-fotos-item" v-for="(foto, posicao) of fotosComFiltro" :key="posicao">
+    ...
+</template>
+
+<script>
+...
+export default {
+  ...
+  // definição das computed properties
+  computed: {
+    fotosComFiltro() {
+      if (this.filtro) {
+        let expressao = new RegExp(this.filtro.trim(), "i");
+        return this.fotos.filter((foto) => expressao.test(foto.titulo));
+      } else {
+        return this.fotos;
+      }
+    },
+  },
+  data() {
+    return {
+      ...
+      filtro: "",
+    };
+  },
+  ...
+};
+</script>
+```
