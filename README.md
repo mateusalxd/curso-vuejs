@@ -253,3 +253,73 @@ pelo Vue.js, considerando o name da transition definida */
 }
 </style>
 ```
+
+- para utilizar rotas é necessário realizar as configurações a seguir
+
+```javascript
+// arquivo routes.js
+import Home from "./components/home/Home.vue";
+import Cadastro from "./components/cadastro/Cadastro.vue";
+
+// criar uma variável com as rotas e componentes correspondentes
+export const routes = [
+  { path: "", component: Home, name: "Home" },
+  { path: "/cadastro", component: Cadastro, name: "Cadastro" },
+];
+
+// arquivo main.js
+import { createApp } from "vue";
+import App from "./App.vue";
+import { createWebHistory, createRouter } from "vue-router";
+import { routes } from "./routes";
+
+// cria as rotas
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+const app = createApp(App);
+app.use(router); // usar no app criado
+app.mount("#app");
+```
+
+```vue
+<!-- arquivo App.vue -->
+<template>
+  <div class="corpo">
+    ...
+    <!-- elemento que irá renderizar os componentes
+    de acordo com as rotas -->
+    <router-view></router-view>
+  </div>
+</template>
+...
+
+<!-- arquivo Menu.vue -->
+<template>
+  ...
+  <li v-for="(rota, posicao) of rotas" v-bind:key="posicao">
+    <!-- router-link possibilitará a navegação
+    sem ser necessário recerregar a página -->
+    <router-link :to="rota.path || '/'">{{ rota.name }}</router-link>
+  </li>
+  ...
+</template>
+
+<script>
+export default {
+  name: "meu-menu",
+  /* esta é uma outra maneira de definir os
+  atributos do componente, porém ao invés de
+  utilizar um array, é informado um objeto */
+  props: {
+    rotas: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>
+...
+```
