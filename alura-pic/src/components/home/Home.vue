@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="centralizado">{{ titulo }}</h1>
+    <p v-show="mensagem">{{mensagem}}</p>
     <input
       type="search"
       class="filtro"
@@ -12,12 +13,13 @@
         <meu-painel :titulo="foto.titulo">
           <imagem-responsiva :url="foto.url" :titulo="foto.titulo" />
           <template v-slot:rodape>
-            <meu-botao 
-            @botao-clicado="removerFoto(foto)"
-            tipo="button" 
-            label="REMOVER" 
-            :confirmacao="true" 
-            estilo="perigo" />
+            <meu-botao
+              @botao-clicado="removerFoto(foto)"
+              tipo="button"
+              label="REMOVER"
+              :confirmacao="true"
+              estilo="perigo"
+            />
           </template>
         </meu-painel>
       </li>
@@ -26,10 +28,10 @@
 </template>
 
 <script>
-import axios from "axios";
 import Painel from "../shared/painel/Painel.vue";
 import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "../shared/botao/Botao.vue";
+import FotoService from "../../domain/foto/FotoService";
 export default {
   components: {
     "meu-botao": Botao,
@@ -48,7 +50,17 @@ export default {
   },
   methods: {
     removerFoto(foto) {
-      alert(`A foto ${foto.titulo} foi removida.`);
+      this.fotoService.apagar(foto._id).then(
+        () => {
+          let posicao = this.fotos.indexOf(foto);
+          this.fotos.splice(posicao, 1);
+          this.mensagem = "Foto apagada com sucesso!";
+        },
+        (err) => {
+          console.log(err);
+          this.mensagem = "Erro ao remover a foto!";
+        }
+      );
     },
   },
   data() {
@@ -56,10 +68,12 @@ export default {
       titulo: "Alurapic",
       fotos: [],
       filtro: "",
+      mensagem: "",
     };
   },
   created() {
-    axios.get("http://localhost:3000/v1/fotos").then(
+    this.fotoService = new FotoService();
+    this.fotoService.listar().then(
       (fotos) => (this.fotos = fotos.data),
       (err) => console.log(err)
     );

@@ -3,7 +3,7 @@
     <h1 class="centralizado">Cadastro</h1>
     <h2 class="centralizado">{{ foto.titulo }}</h2>
 
-    <form @submit.prevent="grava()">
+    <form @submit.prevent="gravar()">
       <div class="controle">
         <label for="titulo">TÍTULO</label>
         <input id="titulo" autocomplete="off" v-model.lazy="foto.titulo" />
@@ -34,7 +34,7 @@
 import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "../shared/botao/Botao.vue";
 import Foto from "../../domain/foto/Foto";
-import axios from "axios";
+import FotoService from "../../domain/foto/FotoService";
 
 export default {
   components: {
@@ -46,9 +46,12 @@ export default {
       foto: new Foto(),
     };
   },
+  created() {
+    this.fotoService = new FotoService();
+  },
   methods: {
-    grava() {
-      axios.post("http://localhost:3000/v1/fotos", this.foto).then(
+    gravar() {
+      this.fotoService.gravar(this.foto).then(
         () => (this.foto = new Foto()),
         (err) => console.log(err)
       );
