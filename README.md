@@ -377,3 +377,5 @@ export default {
   ...
 </template>
 ```
+
+- para realizar o _data binding_ em ambas direções, é possivel utilizar a diretiva `v-model`, que combinada com `lazy` pode atualizar a propriedade após sair do elemento, por exemplo `v-model.lazy="foto.url"`

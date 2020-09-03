@@ -28,7 +28,7 @@
 <script>
 import axios from "axios";
 import Painel from "../shared/painel/Painel.vue";
-import ImagemResponsiva from "../shared/imagem-responsival/ImagemResponsiva.vue";
+import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "../shared/botao/Botao.vue";
 export default {
   components: {
