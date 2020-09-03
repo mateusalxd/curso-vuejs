@@ -13,7 +13,7 @@ export default {
     "meu-menu": Menu,
   },
   data() {
-    return {routes}
+    return {routes: routes.filter(rota => rota.menu)}
   }
 };
 </script>

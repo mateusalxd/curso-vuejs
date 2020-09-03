@@ -379,3 +379,5 @@ export default {
 ```
 
 - para realizar o _data binding_ em ambas direções, é possivel utilizar a diretiva `v-model`, que combinada com `lazy` pode atualizar a propriedade após sair do elemento, por exemplo `v-model.lazy="foto.url"`
+
+- é possível utilizar uma rota nomeada em um `router-link` através de `<router-link :to="{name:'Home'}">`, o _name_ deve estar definido na rota que se deseja utilizar, isso é útil para quando é necessário mudar o _path_, pois dessa maneira não será necessário alterar em todos os locais que estavam utilizando o _path_ fixo
