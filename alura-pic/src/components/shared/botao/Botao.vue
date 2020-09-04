@@ -7,8 +7,8 @@ export default {
   name: "meu-botao",
   props: {
     tipo: { type: String, required: true },
-    confirmacao: Boolean,
-    estilo: String,
+    confirmacao: { type: Boolean, required: false },
+    estilo: { type: String, required: false },
     label: { type: String, required: true },
   },
   methods: {
