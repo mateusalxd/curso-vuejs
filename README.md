@@ -378,6 +378,65 @@ export default {
 </template>
 ```
 
-- para realizar o _data binding_ em ambas direções, é possivel utilizar a diretiva `v-model`, que combinada com `lazy` pode atualizar a propriedade após sair do elemento, por exemplo `v-model.lazy="foto.url"`
+- para realizar o _data binding_ em ambas direções, é possível utilizar a diretiva `v-model`, que combinada com `lazy` pode atualizar a propriedade após sair do elemento, por exemplo `v-model.lazy="foto.url"`
 
 - é possível utilizar uma rota nomeada em um `router-link` através de `<router-link :to="{name:'Home'}">`, o _name_ deve estar definido na rota que se deseja utilizar, isso é útil para quando é necessário mudar o _path_, pois dessa maneira não será necessário alterar em todos os locais que estavam utilizando o _path_ fixo
+
+- as rotas podem receber parâmetros, que por sua vez podem ser acessados conforme abaixo
+
+```javascript
+// arquivo routes.js
+  ...
+    { path: '/cadastro/:id', component: Cadastro, name: 'Atualizar', menu: false },
+  ...
+```
+
+```vue
+<!-- arquivo Home.vue -->
+<template>
+  ...
+  <!-- params deve ter uma propriedade com o mesmo nome definido na rota -->
+  <router-link :to="{ name: 'Atualizar', params: { id: foto._id } }">
+    <meu-botao tipo="button" label="ALTERAR" />
+  </router-link>
+  ...
+</template>
+
+<!-- arquivo Cadastro.vue -->
+<script>
+...
+export default {
+  ...
+  data() {
+    return {
+      foto: new Foto(),
+      // recuperando o parâmetro da rota
+      id: this.$route.params.id,
+    };
+  },
+  ...
+  methods: {
+    gravar() {
+      this.fotoService.gravar(this.foto).then(
+        () => {
+          /* this.$router.push realiza a navegação
+          utilizando uma rota nomeada */
+          if (this.id) this.$router.push({ name: "Home" });
+          this.foto = new Foto();
+        },
+        (err) => alert(err.message)
+      );
+    },
+  },
+};
+</script>
+```
+
+- é possível criar ou não um elemento no DOM de acordo com uma condição, para isso pode ser utilizada a diretiva `v-if` e `v-else`
+
+```vue
+<template>
+  <h2 v-if="foto._id">Atualizaçao</h2>
+  <h2 v-else>Novo</h2>
+</template>
+```

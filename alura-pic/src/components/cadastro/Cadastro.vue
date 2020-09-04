@@ -3,6 +3,9 @@
     <h1 class="centralizado">Cadastro</h1>
     <h2 class="centralizado">{{ foto.titulo }}</h2>
 
+    <h2 v-if="foto._id">Atualizaçao</h2>
+    <h2 v-else>Novo</h2>
+
     <form @submit.prevent="gravar()">
       <div class="controle">
         <label for="titulo">TÍTULO</label>
@@ -12,7 +15,7 @@
       <div class="controle">
         <label for="url">URL</label>
         <input id="url" autocomplete="off" v-model.lazy="foto.url" />
-        <imagem-responsiva v-show="foto.url" :src="foto.url" :titulo="foto.titulo" />
+        <imagem-responsiva v-show="foto.url" :url="foto.url" :titulo="foto.titulo" />
       </div>
 
       <div class="controle">
@@ -44,16 +47,23 @@ export default {
   data() {
     return {
       foto: new Foto(),
+      id: this.$route.params.id,
     };
   },
   created() {
     this.fotoService = new FotoService();
+    if (this.id) {
+      this.fotoService.buscar(this.id).then((foto) => (this.foto = foto.data));
+    }
   },
   methods: {
     gravar() {
       this.fotoService.gravar(this.foto).then(
-        () => (this.foto = new Foto()),
-        (err) => console.log(err)
+        () => {
+          if (this.id) this.$router.push({ name: "Home" });
+          this.foto = new Foto();
+        },
+        (err) => alert(err.message)
       );
     },
   },

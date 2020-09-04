@@ -13,6 +13,9 @@
         <meu-painel :titulo="foto.titulo">
           <imagem-responsiva :url="foto.url" :titulo="foto.titulo" />
           <template v-slot:rodape>
+            <router-link :to="{ name: 'Atualizar', params: { id: foto._id}}">
+              <meu-botao tipo="button" label="ALTERAR" />
+            </router-link>
             <meu-botao
               @botao-clicado="removerFoto(foto)"
               tipo="button"
@@ -75,7 +78,7 @@ export default {
     this.fotoService = new FotoService();
     this.fotoService.listar().then(
       (fotos) => (this.fotos = fotos.data),
-      (err) => console.log(err)
+      (err) => this.mensagem = err.message
     );
   },
 };
